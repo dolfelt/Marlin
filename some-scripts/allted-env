@@ -1,0 +1,15 @@
+ALLTED_BRANCHES="
+	MP3DP_MRambo_16T_aero
+	MP3DP_Ramps_16T_MK
+	MPCNC_Archim1_T8_16T_LCD
+	MPCNC_Archim1_T8_16T_LCD_DualEndstop
+	MPCNC_Archim2_T8_16T_LCD_16step
+	MPCNC_MRambo_T8_16T_LCD
+	MPCNC_Rambo_T8_16T_LCD
+	MPCNC_Rambo_T8_16T_LCD_DualEndstop
+	MPCNC_Ramps_T8_16T_LCD_32step
+	MPCNC_Ramps_T8_16T_LCD_32step_DualEndstop
+	ZenXY_MiniRambo_16T
+	ZenXY_Ramps_16T_LCD_32"
+ALLTED_REMOTE="allted"
+OUT="allted"
