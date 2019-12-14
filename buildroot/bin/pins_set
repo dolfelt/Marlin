@@ -6,5 +6,5 @@ NAM=${PINPATH[1]}
 PIN=$2
 VAL=$3
 
-SED=$(which gsed || which sed)
+SED=$(which gsed 2> /dev/null || which sed)
 eval "${SED} -E -i 's/(\/\/)?(#define +${PIN}\b).*$/\2 ${VAL}/g' Marlin/src/pins/$DIR/pins_${NAM}.h"

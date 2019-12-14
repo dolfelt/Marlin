@@ -95,7 +95,7 @@ if [[ $CHOICE == 0 ]]; then
   # List test descriptions with numbers
   echo "Available '$TESTENV' tests:" ; echo "$OUT" | {
     IND=0
-    SED=$(which gsed || which sed)
+    SED=$(which gsed 2> /dev/null || which sed)
     while IFS= read -r LINE
     do
       if [[ $LINE =~ $ISEXEC ]]; then

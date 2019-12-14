@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SED=$(which gsed || which sed)
+SED=$(which gsed 2> /dev/null || which sed)
 
 for opt in "$@" ; do
   eval "${SED} -i 's/\/\/[[:blank:]]*\(#define \b${opt}\b\)/\1/g' Marlin/Configuration.h"
