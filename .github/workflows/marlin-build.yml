@@ -1,0 +1,34 @@
+name: MarlinBuild
+
+on:
+  push:
+    branches:
+    - build-test
+
+jobs:
+  marlin_build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        test-platform:
+        - megaatmega2560
+        - BIGTREE_SKR_PRO
+        - linux_native
+
+    steps:
+    - name: Select Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+    - name: Install PlatformIO
+      run: pip install -U https://github.com/platformio/platformio-core/archive/master.zip
+    - name: Update PlatformIO
+      run: platformio update
+    - name: Check out the PR
+      uses: actions/checkout@v1
+    - name: Run ${{ matrix.test-platform }} Tests
+      run: |
+        export PATH=$GITHUB_WORKSPACE/buildroot/bin/:$GITHUB_WORKSPACE/buildroot/share/tests/:$PATH
+        run_tests "$(pwd)" ${{ matrix.test-platform }}
