@@ -1,0 +1,32 @@
+name: CI2
+
+on:
+  push:
+    branches:
+      - wft2
+  # pull_request:
+  #  branches:
+  #    - wft
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: zipit
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'foo.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "wft-latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          *.zip
