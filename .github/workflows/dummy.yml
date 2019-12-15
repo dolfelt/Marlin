@@ -1,0 +1,24 @@
+name: Hello
+
+on:
+  push:
+    branches:
+      - blank
+  # pull_request:
+  #  branches:
+  #    - bugfix-2.0.x
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Hello
+      run: |
+        echo "Hello"
+        pwd
+        env
+        echo $0
+        ls -lR $(dirname $0)
