@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - wft
+  # pull_request:
+  #  branches:
+  #    - wft
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Generate a file
+      run: |
+        date > file.txt
+        echo $RANDOM >> file.txt
+    - name: push
+      uses: github-actions-x/commit@v2.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: 'wft'
+        commit-message: 'Automatic update'
+        files: file.txt
+        rebase: 'true'
+    - name: zipit
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'foo.jar'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "wft-latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          *.jar
