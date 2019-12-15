@@ -1,0 +1,5 @@
+version: "1"
+rules:
+  - base: bugfix-2.0.x
+    upstream: MarlinFirmware:bugfix-2.0.x
+    mergeMethod: squash
