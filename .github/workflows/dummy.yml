@@ -61,7 +61,7 @@ jobs:
   conditional:
     runs-on: ubuntu-latest
     needs: build
-    if: ${{ hashFiles('**/nothing.txt') != hashFiles('**/foo.txt') }}
+    if: hashFiles('**/nothing.txt') != hashFiles('**/foo.txt')
     steps:
     - name: Echo something
       run: |
