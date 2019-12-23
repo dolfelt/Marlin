@@ -28,28 +28,40 @@ jobs:
         machine:
         - cfg: MP3DP/MRambo_16T_aero
           env: megaatmega2560
+          out: firmware.hex
         - cfg: MP3DP/Ramps_16T_MK
           env: megaatmega2560
+          out: firmware.hex
         #- cfg: MPCNC/Archim1_T8_16T_LCD
         #  env: DUE
+        #  out: firmware.bin
         #- cfg: MPCNC/Archim1_T8_16T_LCD_DualEndstop
         #  env: DUE
+        #  out: firmware.bin
         #- cfg: MPCNC/Archim2_T8_16T_LCD_16step
         #  env: DUE
+        #  out: firmware.bin
         - cfg: MPCNC/MRambo_T8_16T_LCD
           env: megaatmega2560
+          out: firmware.hex
         - cfg: MPCNC/Rambo_T8_16T_LCD
           env: megaatmega2560
+          out: firmware.hex
         - cfg: MPCNC/Rambo_T8_16T_LCD_DualEndstop
           env: megaatmega2560
+          out: firmware.hex
         - cfg: MPCNC/Ramps_T8_16T_LCD_32step
           env: megaatmega2560
+          out: firmware.hex
         - cfg: MPCNC/Ramps_T8_16T_LCD_32step_DualEndstop
           env: megaatmega2560
+          out: firmware.hex
         - cfg: ZenXY/MiniRambo_16T
           env: megaatmega2560
+          out: firmware.hex
         - cfg: ZenXY/Ramps_16T_LCD_32
           env: megaatmega2560
+          out: firmware.hex
 
     steps:
     - name: Check out the code
@@ -71,6 +83,21 @@ jobs:
       run: |
         chmod +x buildroot/bin/*
         chmod +x buildroot/share/tests/*
-        export PATH=./buildroot/bin/:./buildroot/share/tests/:${PATH}
-        use_example_configs ${{ matrix.machine.cfg }}
-        build_marlin_pio . -e ${{ matrix.machine.env }}
+        v1-scripts/build-for-machine ${{ matrix.machine.cfg }} -e ${{ matrix.machine.env }}
+    - name: zip
+      run: |
+        mkdir -p .zips/{MPCNC,M3DP,ZenXY}
+        zip -j .zips/${{ matrix.machine.cfg }}.zip .pio/build/${{ matrix.machine.env }}/${{ matrix.machine.out }}
+        zip .zips/${{ matrix.machine.cfg }}.zip Marlin/Configuration* Marlin/_Bootscreen.h
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ".zips/${{ matrix.machine.cfg }}.zip"
+        #bodyFile: "body.md"
+        artifacts: ".github/workflows/dummy.yml"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
+        name: unstable
+        tag: wft-latest
+        commit: ${{ github.ref }}
+        allowUpdates: true
