@@ -84,11 +84,11 @@ jobs:
         chmod +x buildroot/bin/*
         chmod +x buildroot/share/tests/*
         v1-scripts/build-for-machine ${{ matrix.machine.cfg }} -e ${{ matrix.machine.env }}
-        v1-scripts/build-zip ${{ matrix.machine.cfg }} ${{ matrix.machine.env }} ${{ matrix.machine.out }}
+        v1-scripts/build-zips ${{ matrix.machine.cfg }} ${{ matrix.machine.env }} ${{ matrix.machine.out }}
     - name: Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ".zip/*.zip"
+        artifacts: ".zips/*.zip,.zips/*.${{ matrix.machine.out }}"
         #bodyFile: "body.md"
         token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true

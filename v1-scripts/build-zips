@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cfg=$1
+env=$2
+out=$3
+
+flatname=$(echo "$cfg" | sed 's@/@_@g')
+dirname="$flatname"
+
+set -ex
+
+mkdir -p .zips
+ln -sf ".." ".zips/$dirname-src"
+ln -sf "../.pio/build/$env" ".zips/$dirname-bin"
+(cd ".zips" && zip -pr "$flatname-bin.zip" "$dirname-bin"/$out)
+(cd ".zips" && zip -pr "$flatname-src.zip" "$dirname-src"/*)
+cp ".pio/build/$env/$out" ".zips/$flatname.$out"
