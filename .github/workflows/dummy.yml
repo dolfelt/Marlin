@@ -64,6 +64,5 @@ jobs:
     if: ${{ hashFiles('**/nothing.txt') != hashFiles('**/foo.txt') }}
     steps:
     - name: Echo something
-      env:
       run: |
         echo Something
