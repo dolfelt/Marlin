@@ -17,8 +17,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: Hello
       env:
-        FOO_HASH: ${{ hashFiles(**/foo.txt) }}
-        DUMMY_HASH: ${{ hashFiles(**/dummy.yml) }}
+        FOO_HASH: ${{ hashFiles('**/foo.txt') }}
+        DUMMY_HASH: ${{ hashFiles('**/dummy.yml') }}
       run: |
         echo "Hello"
         pwd
