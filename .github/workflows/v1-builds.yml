@@ -1,0 +1,75 @@
+name: V1 Builds
+
+on:
+  push:
+    branches:
+    - 'v1-**'
+    paths-ignore:
+    - data/**
+    - docs/**
+    - '**/*.md'
+  pull_request:
+    branches:
+    - 'v1-**'
+    paths-ignore:
+    - data/**
+    - docs/**
+    - '**/*.md'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        machine:
+        - cfg: MP3DP/MRambo_16T_aero
+          env: megaatmega2560
+        - cfg: MP3DP/Ramps_16T_MK
+          env: megaatmega2560
+        - cfg: MPCNC/Archim1_T8_16T_LCD
+          env: DUE
+        - cfg: MPCNC/Archim1_T8_16T_LCD_DualEndstop
+          env: DUE
+        - cfg: MPCNC/Archim2_T8_16T_LCD_16step
+          env: DUE
+        - cfg: MPCNC/MRambo_T8_16T_LCD
+          env: megaatmega2560
+        - cfg: MPCNC/Rambo_T8_16T_LCD
+          env: megaatmega2560
+        - cfg: MPCNC/Rambo_T8_16T_LCD_DualEndstop
+          env: megaatmega2560
+        - cfg: MPCNC/Ramps_T8_16T_LCD_32step
+          env: megaatmega2560
+        - cfg: MPCNC/Ramps_T8_16T_LCD_32step_DualEndstop
+          env: megaatmega2560
+        - cfg: ZenXY/MiniRambo_16T
+          env: megaatmega2560
+        - cfg: ZenXY/Ramps_16T_LCD_32
+          env: megaatmega2560
+
+    # Based on .github/workflows/test-builds.yml
+    steps:
+
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Select Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+    - name: Install PlatformIO
+      run: |
+        pip install -U https://github.com/platformio/platformio-core/archive/master.zip
+        platformio update
+
+    - name: Build ${{ matrix.machine.cfg }}
+      run: |
+        chmod +x buildroot/bin/*
+        chmod +x buildroot/share/tests/*
+        export PATH=./buildroot/bin/:./buildroot/share/tests/:${PATH}
+        use_example_configs ${{ matrix.machine.cfg }}
+        build_marlin_pio . -e ${{ matrix.machine.env }}
