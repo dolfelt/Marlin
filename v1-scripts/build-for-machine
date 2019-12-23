@@ -1,0 +1,10 @@
+#!/bin/bash
+
+machine=$1
+shift
+
+export PATH=$PATH:buildroot/bin
+
+set -ex
+use_example_configs $machine
+build_marlin_pio . "$@"

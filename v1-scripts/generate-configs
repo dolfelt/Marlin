@@ -1,0 +1,3 @@
+#!/bin/bash
+
+unzip -q v1-scripts/temp-v1-configs.zip

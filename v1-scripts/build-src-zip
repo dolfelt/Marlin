@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cfg=$1
+
+flatname=$(echo "$cfg" | sed 's@/@_@g')
+dirname="$flatname"
+
+set -ex
+
+mkdir -p .zip
+ln -sf ".." ".zip/$dirname-src"
+(cd ".zip" && zip -prq "$flatname-src.zip" "$dirname-src"/*)
