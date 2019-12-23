@@ -8,6 +8,10 @@ on:
   #  branches:
   #    - bugfix-2.0.x
 
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '*/5 * * * *'
+
 jobs:
   build:
 
