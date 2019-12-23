@@ -25,6 +25,13 @@ jobs:
         env
         echo $0
         ls -lR $(dirname $0)
+        touch nothing.txt
+    - name: Oh-no
+      env:
+        NOTHING_HASH: ${{ hashFiles('**/nothing.txt') }}
+      run: |
+        env
+        
     #- uses: ncipollo/release-action@v1
     #  with:
     #    #artifacts: "release.tar.gz,foo/*.txt"
@@ -51,3 +58,12 @@ jobs:
     #    draft: false
     #    prerelease: true
     # Hmmmm
+  conditional:
+    runs-on: ubuntu-latest
+    uses: build
+    if: ${{ hashFiles('**/nothing.txt') != hashFiles('**/foo.txt') }}
+    steps:
+    - name: Echo something
+      env:
+      run: |
+        echo Something
