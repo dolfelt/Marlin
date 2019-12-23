@@ -84,20 +84,17 @@ jobs:
         chmod +x buildroot/bin/*
         chmod +x buildroot/share/tests/*
         v1-scripts/build-for-machine ${{ matrix.machine.cfg }} -e ${{ matrix.machine.env }}
-    - name: zip
-      run: |
-        mkdir -p .zips/{MPCNC,MP3DP,ZenXY}
-        zip -j .zips/${{ matrix.machine.cfg }}.zip .pio/build/${{ matrix.machine.env }}/${{ matrix.machine.out }}
-        zip .zips/${{ matrix.machine.cfg }}.zip Marlin/Configuration* Marlin/_Bootscreen.h
+        v1-scripts/build-zip ${{ matrix.machine.cfg }} ${{ matrix.machine.env }} ${{ matrix.machine.out }}
     - name: Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ".zips/${{ matrix.machine.cfg }}.zip"
+        artifacts: ".zip/*.zip"
         #bodyFile: "body.md"
         token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true
         name: unstable
-        #tag: wft-latest
-        tag: ${{ github.ref }}
+        # FIXME: This needs to be dynamic and possibly use a different action
+        # e.g. https://github.com/actions/create-release/pull/12
+        tag: v1-bugfix-2.0.x-auto
         commit: ${{ github.ref }}
         allowUpdates: true
