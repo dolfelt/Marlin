@@ -94,7 +94,6 @@ jobs:
       with:
         artifacts: ".zips/${{ matrix.machine.cfg }}.zip"
         #bodyFile: "body.md"
-        artifacts: ".github/workflows/dummy.yml"
         token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true
         name: unstable
