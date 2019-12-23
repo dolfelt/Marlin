@@ -60,7 +60,7 @@ jobs:
     # Hmmmm
   conditional:
     runs-on: ubuntu-latest
-    uses: build
+    needs: build
     if: ${{ hashFiles('**/nothing.txt') != hashFiles('**/foo.txt') }}
     steps:
     - name: Echo something
