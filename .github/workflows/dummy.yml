@@ -22,27 +22,28 @@ jobs:
         env
         echo $0
         ls -lR $(dirname $0)
-    #- uses: ncipollo/release-action@v1
-    #  with:
-    #    #artifacts: "release.tar.gz,foo/*.txt"
-    #    #bodyFile: "body.md"
-    #    artifacts: ".github/workflows/dummy.yml"
-    #    token: ${{ secrets.GITHUB_TOKEN }}
-    #    prerelease: true
-    #    name: unstable
-    #    tag: wft-latest
-    #    commit: ${{ github.ref }}
-    #    allowUpdates: true
-    - uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: ncipollo/release-action@v1
       with:
-        #tag_name: ${{ github.ref }}
-        tag_name: wft-latest
-        release_name: Release ${{ github.ref }}
-        #body: |
-        #  Changes in this Release
-        #  - First Change
-        #  - Second Change
-        draft: false
+        #artifacts: "release.tar.gz,foo/*.txt"
+        #bodyFile: "body.md"
+        artifacts: ".github/workflows/dummy.yml"
+        token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true
+        name: unstable
+        tag: wft-latest
+        commit: ${{ github.ref }}
+        allowUpdates: true
+
+    #- uses: actions/create-release@v1
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #  with:
+    #    #tag_name: ${{ github.ref }}
+    #    tag_name: wft-latest
+    #    release_name: Release ${{ github.ref }}
+    #    #body: |
+    #    #  Changes in this Release
+    #    #  - First Change
+    #    #  - Second Change
+    #    draft: false
+    #    prerelease: true
