@@ -97,6 +97,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true
         name: unstable
-        tag: wft-latest
+        #tag: wft-latest
         commit: ${{ github.ref }}
         allowUpdates: true
