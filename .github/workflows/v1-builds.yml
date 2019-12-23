@@ -86,7 +86,7 @@ jobs:
         v1-scripts/build-for-machine ${{ matrix.machine.cfg }} -e ${{ matrix.machine.env }}
     - name: zip
       run: |
-        mkdir -p .zips/{MPCNC,M3DP,ZenXY}
+        mkdir -p .zips/{MPCNC,MP3DP,ZenXY}
         zip -j .zips/${{ matrix.machine.cfg }}.zip .pio/build/${{ matrix.machine.env }}/${{ matrix.machine.out }}
         zip .zips/${{ matrix.machine.cfg }}.zip Marlin/Configuration* Marlin/_Bootscreen.h
     - name: Release
