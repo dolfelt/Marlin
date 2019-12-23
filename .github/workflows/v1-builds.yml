@@ -19,10 +19,11 @@ on:
 jobs:
   build:
 
-    name: Build ${{ matrix.machine.cfg }}
+    name: ${{ matrix.machine.cfg }}
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false # Allow all boards to finish building
       matrix:
         machine:
         - cfg: MP3DP/MRambo_16T_aero
@@ -50,12 +51,11 @@ jobs:
         - cfg: ZenXY/Ramps_16T_LCD_32
           env: megaatmega2560
 
-    # Based on .github/workflows/test-builds.yml
     steps:
-
     - name: Check out the code
       uses: actions/checkout@v2
 
+    # Based on .github/workflows/test-builds.yml
     - name: Select Python 3.7
       uses: actions/setup-python@v1
       with:
