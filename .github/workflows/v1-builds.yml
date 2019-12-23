@@ -98,5 +98,6 @@ jobs:
         prerelease: true
         name: unstable
         #tag: wft-latest
+        tag: ${{ github.ref }}
         commit: ${{ github.ref }}
         allowUpdates: true
