@@ -3,7 +3,7 @@ name: Hello PR
 on:
   pull_request:
     branches:
-      - wft
+      - blank
 
   #schedule:
   #  # * is a special character in YAML so you have to quote this string
@@ -16,8 +16,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        ref: wft
     - name: Hello
       run: |
         echo "Hello"
