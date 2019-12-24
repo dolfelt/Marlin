@@ -8,14 +8,15 @@ on:
   #  branches:
   #    - bugfix-2.0.x
 
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '*/5 * * * *'
+  #schedule:
+  #  # * is a special character in YAML so you have to quote this string
+  #  - cron:  '*/5 * * * *'
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    if: true == false
 
     steps:
     - uses: actions/checkout@v1
@@ -62,6 +63,7 @@ jobs:
     #    draft: false
     #    prerelease: true
     # Hmmmm
+
   conditional:
     runs-on: ubuntu-latest
     needs: build
