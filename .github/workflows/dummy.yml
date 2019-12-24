@@ -26,6 +26,7 @@ jobs:
       run: date +%s > report.txt
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
