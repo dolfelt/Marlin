@@ -1,0 +1,27 @@
+name: Hello PR
+
+on:
+  pull_request:
+    branches:
+      - wft
+
+  #schedule:
+  #  # * is a special character in YAML so you have to quote this string
+  #  - cron:  '*/5 * * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        ref: wft
+    - name: Hello
+      run: |
+        echo "Hello"
+        pwd
+        env
+        echo $0
+        ls -lR $(dirname $0)

@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - blank
-  # pull_request:
-  #  branches:
-  #    - bugfix-2.0.x
-
-  #schedule:
-  #  # * is a special character in YAML so you have to quote this string
-  #  - cron:  '*/5 * * * *'
 
 jobs:
   build:
@@ -20,55 +13,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+      with:
+        ref: wft
+
     - name: Hello
-      env:
-        FOO_HASH: ${{ hashFiles('**/foo.txt') }}
-        DUMMY_HASH: ${{ hashFiles('**/dummy.yml') }}
       run: |
         echo "Hello"
         pwd
         env
         echo $0
         ls -lR $(dirname $0)
-        touch nothing.txt
-    - name: Oh-no
-      env:
-        NOTHING_HASH: ${{ hashFiles('**/nothing.txt') }}
-      run: |
-        env
-        
-    #- uses: ncipollo/release-action@v1
-    #  with:
-    #    #artifacts: "release.tar.gz,foo/*.txt"
-    #    #bodyFile: "body.md"
-    #    artifacts: ".github/workflows/dummy.yml"
-    #    token: ${{ secrets.GITHUB_TOKEN }}
-    #    prerelease: true
-    #    name: unstable
-    #    tag: wft-latest
-    #    commit: ${{ github.ref }}
-    #    allowUpdates: true
 
-    #- uses: actions/create-release@v1
-    #  env:
-    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #  with:
-    #    #tag_name: ${{ github.ref }}
-    #    tag_name: wft-latest
-    #    release_name: Release ${{ github.ref }}
-    #    #body: |
-    #    #  Changes in this Release
-    #    #  - First Change
-    #    #  - Second Change
-    #    draft: false
-    #    prerelease: true
-    # Hmmmm
+    # https://github.com/marketplace/actions/create-pull-request
+    - name: Create report file
+      run: date +%s > report.txt
 
-  conditional:
-    runs-on: ubuntu-latest
-    needs: build
-    #if: hashFiles('**/nothing.txt') != hashFiles('**/foo.txt')
-    steps:
-    - name: Echo something
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v1
+      branch: wft
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check outputs
       run: |
-        echo Something
+        echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
