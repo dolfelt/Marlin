@@ -16,7 +16,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    if: true == false
+    if: 'a' == 'b'
 
     steps:
     - uses: actions/checkout@v1
